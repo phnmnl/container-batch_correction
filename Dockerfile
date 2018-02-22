@@ -18,7 +18,7 @@ MAINTAINER PhenoMeNal-H2020 Project ( phenomenal-h2020-users@googlegroups.com )
 ################################################################################
 ### set metadata
 ENV TOOL_NAME=batch_correction
-ENV TOOL_VERSION=2.2.0
+ENV TOOL_VERSION=phenomenal_2018_02_22
 ENV CONTAINER_VERSION=0.3
 ENV CONTAINER_GITHUB=https://github.com/phnmnl/container-batch_correction
 
@@ -44,7 +44,7 @@ RUN echo "deb http://cran.univ-paris1.fr/bin/linux/ubuntu trusty/" >> /etc/apt/s
     apt-get install --no-install-recommends -y git && \
     apt-get install --no-install-recommends -y make && \
     apt-get install --no-install-recommends -y gcc && \
-    git clone --recurse-submodules --single-branch -b v${TOOL_VERSION} https://github.com/workflow4metabolomics/batch_correction.git /files/batch_correction  && \
+    git clone --recurse-submodules --single-branch -b ${TOOL_VERSION} https://github.com/workflow4metabolomics/batch_correction.git /files/batch_correction  && \
     echo "r <- getOption('repos'); r['CRAN'] <- 'http://cran.us.r-project.org'; options(repos = r);" > ~/.Rprofile  && \
     Rscript -e "install.packages('batch', dep=TRUE)" && \
     Rscript -e "install.packages('ade4', dep=TRUE)" && \
