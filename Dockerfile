@@ -9,7 +9,7 @@
 
 ################################################################################
 ### fix parent containter
-FROM ubuntu:16.04
+FROM container-registry.phenomenal-h2020.eu/phnmnl/rbase
 
 ################################################################################
 ### set author
@@ -19,7 +19,7 @@ MAINTAINER PhenoMeNal-H2020 Project ( phenomenal-h2020-users@googlegroups.com )
 ### set metadata
 ENV TOOL_NAME=batch_correction
 ENV TOOL_VERSION=2.2.2
-ENV CONTAINER_VERSION=1.0
+ENV CONTAINER_VERSION=1.1
 ENV CONTAINER_GITHUB=https://github.com/phnmnl/container-batch_correction
 
 LABEL version="${CONTAINER_VERSION}"
@@ -34,28 +34,12 @@ LABEL tags="Metabolomics"
 
 ################################################################################
 # Install
-RUN echo "deb http://cran.univ-paris1.fr/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list  && \
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9  && \
-    apt-get update  && \
-    apt-get -y upgrade  && \
-    apt-get install --no-install-recommends -y r-base && \
-    apt-get install --no-install-recommends -y libcurl4-openssl-dev && \
-    apt-get install --no-install-recommends -y libxml2-dev && \
-    apt-get install --no-install-recommends -y libssl-dev && \
-    apt-get install --no-install-recommends -y liblapack-dev && \
-    apt-get install --no-install-recommends -y libblas-dev && \
-    apt-get install --no-install-recommends -y gfortran && \
-    apt-get install --no-install-recommends -y wish && \
-    apt-get install --no-install-recommends -y git && \
-    apt-get install --no-install-recommends -y make && \
-    apt-get install --no-install-recommends -y gcc && \
-    apt-get install --no-install-recommends -y g++ && \
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y libcurl4-openssl-dev libxml2-dev libssl-dev liblapack-dev libblas-dev gfortran wish git make gcc g++ && \
     git clone --recurse-submodules --single-branch -b v${TOOL_VERSION} https://github.com/workflow4metabolomics/batch_correction.git /files/batch_correction  && \
-    echo "r <- getOption('repos'); r['CRAN'] <- 'http://cran.us.r-project.org'; options(repos = r);" > ~/.Rprofile  && \
-    R -e "install.packages('batch', dep=TRUE)" && \
-    R -e "install.packages('ade4', dep=TRUE)" && \
-    R -e "source('http://www.bioconductor.org/biocLite.R'); biocLite('pcaMethods')" && \
-    R -e "source('http://www.bioconductor.org/biocLite.R'); biocLite('ropls')" && \
+    echo 'options("repos"="http://cran.rstudio.com")' >> /etc/R/Rprofile.site && \
+    R -e "install.packages(c('batch', 'ade4'), dep=TRUE)" && \
+    R -e "source('http://www.bioconductor.org/biocLite.R'); biocLite(c('pcaMethods', 'ropls'))" && \
     chmod a+x /files/batch_correction/batch_correction_docker_wrapper.R && \
     apt-get purge -y git make gcc g++ gfortran wish && \
     apt-get clean  && \
