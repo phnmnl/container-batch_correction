@@ -3,7 +3,7 @@
 ![Logo](w4m.png)
 
 # W4M - Batch Correction
-Version: phenomenal_2018_02_22
+Version: 2.2.2
 
 ## Short description
 
