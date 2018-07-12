@@ -11,13 +11,19 @@ Version: 2.2.2
 This should only be 20 to 40 words, hopefully a single sentence.
 -->
 
-Signal drift and batch-effect correction.
+Corrects intensities for signal drift and batch-effects
 
 ## Description
 
 A Galaxy module from the [Workflow4metabolomics](http://workflow4metabolomics.org) infrastructure. 
+
 Instrumental drift and offset differences between batches have been described in LC-MS experiments when the number of samples is large and/or multiple batches of acquisition are needed.
-For further informations please refer the for project's [GitHub page](https://github.com/workflow4metabolomics/batch_correction). 
+
+Recently a normalization strategy relying on the measurements of a pooled (or QC) sample injected periodically has been described: for each variable, a regression model is fitted to the values of the pool and subsequently used to adjust the intensities of the samples of interest (van der Kloet et al, 2009; Dunn et al, 2011).
+
+The current tool implements two strategies which differ in the way the regression model is applied to the variables (either depending on variable quality metrics, or 'loess' model for all variables) and also in the generated figure.
+
+For further information please refer to the project's [GitHub page](https://github.com/workflow4metabolomics/batch_correction). 
 
 ## Key features
 
@@ -25,6 +31,7 @@ For further informations please refer the for project's [GitHub page](https://gi
 
 ## Functionality
 
+- Pre-processing 
 
 ## Approaches
 
@@ -32,7 +39,7 @@ For further informations please refer the for project's [GitHub page](https://gi
   
 ## Instrument Data Types
 
-## Screenshots
+- LC/MS
 
 ## Tool Authors
 
