@@ -3,7 +3,7 @@
 ![Logo](w4m.png)
 
 # W4M - Batch Correction
-Version: 2.2.2
+Version: 2.2.3
 
 ## Short description
 

@@ -18,7 +18,7 @@ MAINTAINER PhenoMeNal-H2020 Project ( phenomenal-h2020-users@googlegroups.com )
 ################################################################################
 ### set metadata
 ENV TOOL_NAME=batch_correction
-ENV TOOL_VERSION=2.2.2
+ENV TOOL_VERSION=2.2.3
 ENV CONTAINER_VERSION=1.1
 ENV CONTAINER_GITHUB=https://github.com/phnmnl/container-batch_correction
 
@@ -38,7 +38,7 @@ RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y libcurl4-openssl-dev libxml2-dev libssl-dev liblapack-dev libblas-dev gfortran wish git make gcc g++ && \
     git clone --recurse-submodules --single-branch -b v${TOOL_VERSION} https://github.com/workflow4metabolomics/batch_correction.git /files/batch_correction  && \
     echo 'options("repos"="http://cran.rstudio.com")' >> /etc/R/Rprofile.site && \
-    R -e "install.packages(c('batch', 'ade4'), dep=TRUE)" && \
+    R -e "install.packages(c('batch', 'ade4', 'RUnit'), dep=TRUE)" && \
     R -e "source('http://www.bioconductor.org/biocLite.R'); biocLite(c('pcaMethods', 'ropls'))" && \
     chmod a+x /files/batch_correction/batch_correction_docker_wrapper.R && \
     apt-get purge -y git make gcc g++ gfortran wish && \
@@ -47,8 +47,10 @@ RUN apt-get update -qq && \
     rm -rf /var/lib/{apt,dpkg,cache,log}/ /tmp/* /var/tmp/*
 
 # Make tool accessible through PATH
-WORKDIR /files/batch_correction
-ENV PATH = $PATH:/files/batch_correction
+ENV PATH=$PATH:/files/batch_correction
+
+# Make test script accessible
+ENV PATH=$PATH:/files/batch_correction/test
 
 ################################################################################
 ### Define script ENTRYPOINT or container CMD
